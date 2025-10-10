@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
@@ -23,7 +23,12 @@
     "zod": "^4.1.12"
   },
   "devDependencies": {
+    "@eslint/js": "^9.37.0",
     "eslint": "^9.37.0",
-    "nodemon": "^3.1.10"
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "globals": "^16.4.0",
+    "nodemon": "^3.1.10",
+    "prettier": "^3.6.2"
   }
 }
