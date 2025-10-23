@@ -23,10 +23,8 @@ export const taskController = {
       const newTask = await taskService.createTask(req.body);
       res.status(201).json(newTask);
     } catch (error) {
-      if (error.message === 'Task title already exists') {
-        return res.status(400).json({ error: error.message });
-      }
-      res.status(500).json({ error: 'Error creating task' });
+      const status = error.statusCode || 500;
+      res.status(status).json({ error: error.message });
     }
   },
   update: async (req, res) => {
@@ -38,7 +36,7 @@ export const taskController = {
 
       const taskUpdate = await taskService.update(task);
       res.json(taskUpdate);
-    } catch (error) {
+    } catch {
       res.status(500).json({ error: 'Error updating task' });
     }
   },
@@ -51,7 +49,7 @@ export const taskController = {
       }
 
       res.json({ message: 'Task deleted successfully' });
-    } catch (error) {
+    } catch {
       res.status(500).json({ error: 'Error deleting task' });
     }
   },

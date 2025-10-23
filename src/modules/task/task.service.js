@@ -9,12 +9,16 @@ export const taskService = {
     return task;
   },
 
-  createTask: async (data) => {
-    const { title } = data;
+  createTask: async (task) => {
+    const { title } = task;
     const titleExisting = await taskModel.findByTitle(title);
-    if (titleExisting) throw new Error('Task already exists');
+    if (titleExisting) {
+      const error = new Error('Task already exist');
+      error.statusCode = 400;
+      throw error;
+    }
 
-    return await taskModel.create(data);
+    return await taskModel.create(task);
   },
 
   delete: async (id) => {

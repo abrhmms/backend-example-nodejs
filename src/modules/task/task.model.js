@@ -19,8 +19,7 @@ export const taskModel = {
       );
 
       return result.rows;
-    } catch (error) {
-      console.log('error creating tasks', error);
+    } catch {
       throw new Error('Error creating task');
     }
   },
@@ -36,8 +35,7 @@ export const taskModel = {
         [title, description, id]
       );
       return result.rows[0];
-    } catch (error) {
-      console.error('error in:', error);
+    } catch {
       throw new Error('Error updating task');
     }
   },
@@ -52,6 +50,6 @@ export const taskModel = {
     const result = await pool.query('SELECT * FROM tasks WHERE title = $1', [
       title,
     ]);
-    return result.rows[0];
+    return result.rows[0] || null;
   },
 };
