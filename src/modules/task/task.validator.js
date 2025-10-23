@@ -12,15 +12,11 @@ const taskSchema = z.object({
 });
 
 export function validateTasks(req, res, next) {
-  console.log('Body recibido:', req.body);
   const result = taskSchema.safeParse(req.body);
-  console.log(result);
-
   if (!result.success) {
     const errors = result.error.format();
     return res.status(400).json({ errors });
   }
-
   req.body = result.data;
   next();
 }

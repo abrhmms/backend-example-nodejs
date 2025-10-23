@@ -1,25 +1,30 @@
 import { taskModel } from './task.model.js';
 
 export const taskService = {
-  getAll: async () => {
-    const tasks = await taskModel.getAll();
-    return tasks;
+  getAll: async () => await taskModel.getAll(),
+
+  getById: async (id) => {
+    const task = await taskModel.getById(id);
+    if (!task) throw new Error('Task not found');
+    return task;
   },
+
   createTask: async (data) => {
-    try {
-      const { title } = data;
+    const { title } = data;
+    const titleExisting = await taskModel.findByTitle(title);
+    if (titleExisting) throw new Error('Task already exists');
 
-      const titleExisting = await taskModel.findByTitle(title);
+    return await taskModel.create(data);
+  },
 
-      if (titleExisting) {
-        throw new Error('Tasks already in exist');
-      }
+  delete: async (id) => {
+    const deleted = await taskModel.delete(id);
+    if (!deleted) throw new Error('Task not found');
+    return deleted;
+  },
 
-      const newTasks = await taskModel.create(data);
-      return newTasks;
-    } catch (error) {
-      console.log('error in service', error);
-      throw new Error('Error in service');
-    }
+  update: async (task) => {
+    const taskUpdate = await taskModel.update(task);
+    return taskUpdate;
   },
 };

@@ -6,18 +6,12 @@ const router = Router();
 
 router.get('/', taskController.getAll);
 
-router.get('/tasks/:id', (req, res) => {
-  res.json({ message: 'una tarea' });
-});
+router.get('/:id', taskController.getById);
 
 router.post('/', validateTasks, taskController.create);
 
-router.patch('/tasks/:id', (req, res) => {
-  res.json({ message: 'modifica una tarea' });
-});
+router.patch('/:id', validateTasks, taskController.update);
 
-router.delete('/tasks/:id', (req, res) => {
-  res.json({ message: 'elimina tarea' });
-});
+router.delete('/:id', taskController.delete);
 
 export default router;

@@ -9,6 +9,15 @@ export const taskController = {
       res.status(500).json({ error: 'Error fetching tasks' });
     }
   },
+  getById: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const task = await taskService.getById(id);
+      res.json(task);
+    } catch {
+      res.status(404).json({ error: 'Error fetching task' });
+    }
+  },
   create: async (req, res) => {
     try {
       const newTask = await taskService.createTask(req.body);
@@ -18,6 +27,32 @@ export const taskController = {
         return res.status(400).json({ error: error.message });
       }
       res.status(500).json({ error: 'Error creating task' });
+    }
+  },
+  update: async (req, res) => {
+    try {
+      const task = {
+        id: req.params.id,
+        ...req.body,
+      };
+
+      const taskUpdate = await taskService.update(task);
+      res.json(taskUpdate);
+    } catch (error) {
+      res.status(500).json({ error: 'Error updating task' });
+    }
+  },
+  delete: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const deleted = await taskService.delete(id);
+      if (!deleted) {
+        return res.status(404).json({ error: 'Task not found' });
+      }
+
+      res.json({ message: 'Task deleted successfully' });
+    } catch (error) {
+      res.status(500).json({ error: 'Error deleting task' });
     }
   },
 };
